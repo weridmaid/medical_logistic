@@ -131,8 +131,8 @@ def extractnumwithstr(readcsvname):
     i=1
     #正则匹配要用' ur'' '才能正确匹配中文
     #(?:..):(...)的不分组版本，用于使用| 或 后接数量词
-    pattern1 = re.compile(ur'\d+.\d+(?:g|kg|ml|l|个|钱|片|根|条|份|张|枚|具|朵|只|粒|茎|两|斤|挺|对|头|L|ML|分|节|cm|握)')
-    pattern2=re.compile(ur'\d+(?:g|kg|ml|l|个|钱|片|根|条|份|张|枚|具|朵|只|粒|茎|两|斤|挺|对|头|L|ML|分|节|cm|握)')
+    pattern1 = re.compile(ur'\d+.\d+(?:g|kg|ml|l|个|钱|片|根|条|份|张|枚|具|朵|只|粒|茎|两|斤|挺|对|头|L|ML|分|节|cm|握|株)')
+    pattern2=re.compile(ur'\d+(?:g|kg|ml|l|个|钱|片|根|条|份|张|枚|具|朵|只|粒|茎|两|斤|挺|对|头|L|ML|分|节|cm|握|株)')
     pattern3=re.compile(ur'kg')
     finalmedicallist=[]
     for item in csvdata:

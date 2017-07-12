@@ -8,7 +8,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-#
+#检查配伍-功效-主治是否一一对应
 def checkitem(readcsvname1,readcsvname2,readcsvname3):
     print '检查配伍-功效-主治对应与否中....'
     data1=data_process.read_csv(readcsvname1)
@@ -61,7 +61,13 @@ if __name__ == '__main__':
     # data1=checkitem(readcsvname1,readcsvname2,readcsvname3)
 
     # step 4
-    readcsvname1 = 'prescription_2.csv'
-    # readcsvname2 = 'function.csv'
-    # readcsvname3='indications.csv'
-    # data1=checkitem(readcsvname1,readcsvname2,readcsvname3)
+    # readcsvname = 'prescription_2.csv'
+    # datalist=dataDetailProcess.splitnumandstr(readcsvname)
+    #
+    writecsvname='prescription_3.csv'
+    # data_process.write_in_csv(writecsvname, datalist)
+    finalmedicallist=dataDetailProcess.extractnumwithstr(writecsvname)
+    print 'prescription_3.csv 总行数 ：',len(finalmedicallist)
+
+    writecsvname1='prescription_4.csv'
+    data_process.createListCSV(writecsvname1, finalmedicallist)

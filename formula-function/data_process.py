@@ -51,7 +51,8 @@ def write_list_in_csv(csv_name,datas):
 # 功能：将一个二重列表[[],[]]写入到csv文件中
 # 输入：文件名称，数据列表
 def createListCSV(fileName, dataList):
-    with csv.writer('experimentdata/%s' %fileName, "wb") as csvFile:
+        csvFile = file('../formulaData/%s' % fileName, 'wb')
+    # with csv.writer('../formulaData/%s' %fileName, "wb") as csvFile:
         csvWriter = csv.writer(csvFile)
         for data in dataList:
             csvWriter.writerow(data)

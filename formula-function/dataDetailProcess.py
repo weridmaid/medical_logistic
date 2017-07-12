@@ -69,9 +69,9 @@ def process_blank(readcsvname,writecsvname):
 #****************************输入：compostion_1_1.csv;输出：composition_1_2.csv***********************************
 #清除描述中的 “各”字；清除药物括号里的内容
 #eg.苍术(泔浸，去皮净)120g,防风6g,白术,白茯苓,白芍药各3g ======> 苍术120g,防风6g,白术,白茯苓,白芍药#3g
-def splitnumandstr():
+def splitnumandstr(readcsvname):
     print ('splitnumandstr')
-    readcsvname='csvtest.csv'
+    # readcsvname='csvtest.csv'
     # readcsvname='composition_1_1.csv'
     csvdata=data_process.read_csv(readcsvname)
     i=1
@@ -108,10 +108,12 @@ def splitnumandstr():
         # print 'data_after^^^^^^^^^^^^^^^^^',data_after
         data_after=[]
 
+
     # writecsvname = 'composition_1_2.csv'
 
     # writecsvname='csvtest_1.csv'
     # data_process.write_in_csv(writecsvname,datalist)
+    return datalist
 
 
 
@@ -119,7 +121,7 @@ def splitnumandstr():
 #提取描述中的药物单位量以及它所对应的药
 #eg1.苍术120g,防风6g,白术,白茯苓,白芍药#3g =================》苍术,120g,防风,6g,白术,3g ,白茯苓,3g ,白芍药,3g
 #eg2.黄芩,防风#等分=================》黄芩,None,防风,None
-def extractnumwithstr(readcsvname,writecsvname):
+def extractnumwithstr(readcsvname):
     print ('extractnumwithstr')
     # readcsvname='csvtest_1.csv'
     # readcsvname='composition_5_2.csv'
@@ -129,12 +131,12 @@ def extractnumwithstr(readcsvname,writecsvname):
     i=1
     #正则匹配要用' ur'' '才能正确匹配中文
     #(?:..):(...)的不分组版本，用于使用| 或 后接数量词
-    pattern1 = re.compile(u'\d+.\d+(?:g||kg|ml|l|个|钱|片|根|条|份|张|枚|具|朵|只|粒|茎|两|斤|挺|对|头|L|ML|分|节|cm|握)')
-    pattern2=re.compile(u'\d+(?:g||kg|ml|l|个|钱|片|根|条|份|张|枚|具|朵|只|粒|茎|两|斤|挺|对|头|L|ML|分|节|cm|握)')
-    pattern3=re.compile(u'kg')
+    pattern1 = re.compile(ur'\d+.\d+(?:g|kg|ml|l|个|钱|片|根|条|份|张|枚|具|朵|只|粒|茎|两|斤|挺|对|头|L|ML|分|节|cm|握)')
+    pattern2=re.compile(ur'\d+(?:g|kg|ml|l|个|钱|片|根|条|份|张|枚|具|朵|只|粒|茎|两|斤|挺|对|头|L|ML|分|节|cm|握)')
+    pattern3=re.compile(ur'kg')
     finalmedicallist=[]
     for item in csvdata:
-        print ('****************************************************************** 处方： ',i)
+        print '****************************************************************** 处方： ',i
         medicallist = []
         point = []
         medicaldict=[]
@@ -159,15 +161,18 @@ def extractnumwithstr(readcsvname,writecsvname):
                 yaowulist=pattern2.split(itemdata)
             # print '$$$$$$$$$$$$findal',weight1,weight2,weight
             # 在处方内容中通过正则匹配找出数量单位 end
+            # print 'yaowulist',yaowulist
+            # for ii in yaowulist:
+            #     print ii
 
             # 把处方的每味药提出来重新放在medicallist列表元素[0]里，同时已经去除了药的数量单位
             if(yaowulist):
-                # try:
-                yaowulist.remove('')
-                for zz in yaowulist:
-                    medicallist.append(zz)
-                # except:
-                #     pass
+                try:
+                    yaowulist.remove('')
+                    for zz in yaowulist:
+                        medicallist.append(zz)
+                except:
+                    pass
             else:
                 medicallist.append(itemdata)
 
@@ -192,15 +197,15 @@ def extractnumwithstr(readcsvname,writecsvname):
             if(k.find('#')>0):
                 point.append(j)
                 medicaldict[j][0]=medicaldict[j][0].replace('#','')
-                print (medicaldict[j][0])
-                print ('检测到“各”字，该味药在处方中所处位置：',j,k)
+                # print (medicaldict[j][0])
+                print '检测到“各”字，该味药在处方中所处位置：',j,k
             j+=1
-        print ('该方剂一共配药数量为：',j)
-        print ('该方剂中出现“各”字的位置有：', point)
+        print '该方剂一共配药数量为：',j
+        print '该方剂中出现“各”字的位置有：', point
 
         f=0
         print ('##################### 开始处理所有药的数量单位 ##################')
-        print ('medicaldict', medicaldict)
+        # print ('medicaldict', medicaldict)
 
 
         for m,n in medicaldict:
@@ -214,7 +219,7 @@ def extractnumwithstr(readcsvname,writecsvname):
                             medicaldict[f][1]=medicaldict[pointnum][1]
                             break
             f+=1
-        print ('@@@@@@~~最后处理结果(列表):', medicaldict)
+        # print '@@@@@@~~最后处理结果(列表):', medicaldict
 
         #重新整理medicaldict数据格式，并存入csv里
         onepiece=[]
@@ -229,6 +234,8 @@ def extractnumwithstr(readcsvname,writecsvname):
         #处方数增一
         i += 1
 
+
+    return finalmedicallist
     # print (finalmedicallist)
     # writecsvname = 'composition_2_3.csv'
     # data_process.createListCSV(writecsvname, finalmedicallist)

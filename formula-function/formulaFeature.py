@@ -83,7 +83,7 @@ def presFeature_1(csvname1,csvname2):
                             #特征既有配伍成分，又考虑了单位数量
                             featrue[location]=itemvalue
                         else:
-                            featrue[location] = 1
+                            featrue[location] = 28
                     except:
                         # print 'wrong',wrongnum,item[0],mark,itemdata
                         wrongnum += 1
@@ -114,6 +114,14 @@ def presFeature_2(csvname1,csvname2):
         # print 'item:',item
         mark = 0
         featrue = [0] * 1487
+        lenth=len(item)
+        thisall=0
+        for i in range(0,lenth):
+            if ((i % 2)!=0):
+                if item[i] != 'None':
+                    thisall = thisall+dataFeatureValue.findnum(item[i])
+                else:
+                    thisall=thisall+28
         for itemdata in item:
                 if(( mark % 2) == 0):
                     try:
@@ -123,9 +131,9 @@ def presFeature_2(csvname1,csvname2):
                             itemvalue=dataFeatureValue.findnum(item[mark+1])
                             # finalValue=(itemvalue-float(mediaclvalueList[location][2])+1)/(float(mediaclvalueList[location][3])+1)
                             #特征既有配伍成分，又考虑了单位数量和归一化
-                            featrue[location]=itemvalue
+                            featrue[location]=itemvalue/thisall
                         else:
-                            featrue[location] = 75
+                            featrue[location] = 28/thisall
                     except:
                         # print 'wrong',wrongnum,item[0],mark,itemdata
                         wrongnum += 1
@@ -151,8 +159,10 @@ def computeAverage(csvname):
                 mark += 1
             else:
                 if itemdata != 'None':
-                    itemvalue = itemvalue+dataFeatureValue.findnum(itemdata)
-                    num += 1
+                    value=dataFeatureValue.findnum(itemdata)
+                    if value<1000:
+                        itemvalue = itemvalue+value
+                        num += 1
                 else:
                     continue
                 mark += 1
@@ -171,21 +181,21 @@ if __name__ == '__main__':
     # data_process.write_in_csv(writecsvname , numarray)
 
     #step 2 计算方剂向量特征
-    #(1)使用one-hot表示，每个方剂的维数等于所有方剂中药物的去重个数，若出现则为1
+    #(1)使用one-hot表示，每个方剂的维数等于所有方剂中药物的去重个数，若出现则为1 *********presFeature_onehot.csv
     # csvname1='prescription_6.csv'
     # csvname2 = 'allMedicalCount.csv'
     # pFeatrue= presFeature(csvname1,csvname2)
     # writecsvname = 'presFeature_onehot.csv'
     # data_process.write_in_csv(writecsvname , pFeatrue)
 
-    # (2)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数
+    # (2)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数*********presFeature_realValue.csv
     # csvname1 = 'prescription_6.csv'
     # csvname2 = 'allMedicalCount.csv'
     # pFeatrue = presFeature_1(csvname1, csvname2)
     # writecsvname = 'presFeature_realValue.csv'
     # data_process.write_in_csv(writecsvname, pFeatrue)
 
-    # (3)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数,在方剂中做归一化处理
+    # (3)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数,在方剂中做归一化处理*********presFeature_standardValue.csv
     # csvname1 = 'prescription_6.csv'
     # csvname2 = 'allMedicalCount.csv'
     # pFeatrue = presFeature_2(csvname1, csvname2)
@@ -194,7 +204,7 @@ if __name__ == '__main__':
 
 
 
-     #strep other
-    csvname = 'prescription_6.csv'
-    computeAverage(csvname)
+     #strep other 计算方剂剂量的均值
+    # csvname = 'prescription_6.csv'
+    # computeAverage(csvname)
 

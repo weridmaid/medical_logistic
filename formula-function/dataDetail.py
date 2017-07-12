@@ -66,15 +66,20 @@ if __name__ == '__main__':
     # writecsvname1='prescription_4.csv'
     # data_process.createListCSV(writecsvname1, finalmedicallist)
 
-    #step 5
-    csvname='prescription_4.csv'
+    #step 5 把单位kg,钱，两 统一为 g（克）
+    # csvname='prescription_4.csv'
+    # normalList= dataDetailProcess.unitTransformation(csvname)
+    # writecsvname='prescription_5.csv'
+    # data_process.write_in_csv(writecsvname, normalList)
 
-
-
-
+    #step 6 清洗一些none单位的杂音 如‘等分，少许’
+    # csvname='prescription_5.csv'
+    # noneList= dataDetailProcess.noneStandard(csvname)
+    # writecsvname='prescription_6.csv'
+    # data_process.write_in_csv(writecsvname, noneList)
 
     # step other  检查一下功效和配伍是否一一对应
-    # readcsvname1 = 'prescription_4.csv'
-    # readcsvname2 = 'function.csv'
+    # readcsvname1 = 'prescription_6.csv'
+    # readcsvname2 = 'function_1.csv'
     # readcsvname3='indications.csv'
     # data1=checkitem(readcsvname1,readcsvname2,readcsvname3)

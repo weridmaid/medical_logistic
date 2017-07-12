@@ -317,9 +317,9 @@ def seperateNone():
 # **************************** 输入：allData_normal.csv (只有normal里面的才带完整的数量单位); 输出：csvtest_normal1.csv ***********************************
 #单位转换为g的函数 加在这里！！
 #把单位kg,钱，两 统一为 g（克）
-def unitTransformation():
+def unitTransformation(readcsvname):
     print ('unitTransformation()')
-    readcsvname = 'csvtest_normal.csv'
+    # readcsvname = 'csvtest_normal.csv'
     # readcsvname = 'allData_normal.csv'
     # readcsvname ='allData_none.csv'
     csvdata = data_process.read_csv(readcsvname)
@@ -379,15 +379,16 @@ def unitTransformation():
 
 
     # writecsvname = 'csvtest_normal1.csv'
-    writecsvname = 'allData_normal1.csv'
+    # writecsvname = 'allData_normal1.csv'
     # data_process.write_in_csv(writecsvname , normalList)
+    return normalList
 
 # **************************** 输入：allData_none.csv (只有normal里面的才带完整的数量单位); 输出：csvtest_none1.csv ***********************************
 #单位转换为g的函数 加在这里！！
 #把单位kg,钱，两 统一为 g（克）
-def noneStandard():
+def noneStandard(readcsvname):
     print ('noneStandard')
-    readcsvname ='allData_none.csv'
+    # readcsvname ='allData_none.csv'
     csvdata =data_process.read_csv(readcsvname)
 
     noneList = []
@@ -403,9 +404,9 @@ def noneStandard():
             midList.append(itemdata)
         noneList.append(midList)
 
-    writecsvname = 'allData_none1.csv'
-    data_process.write_in_csv(writecsvname , noneList)
-
+    # writecsvname = 'allData_none1.csv'
+    # data_process.write_in_csv(writecsvname , noneList)
+    return noneList
 
 if __name__ == '__main__':
     print ('main')

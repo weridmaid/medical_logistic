@@ -44,7 +44,7 @@ def write_list_in_csv(csv_name,datas):
     csvfile.write(codecs.BOM_UTF8)
     writer = csv.writer(csvfile)
     for item in datas:
-        item = item.encode('utf-8')
+        # item = item.encode('utf-8')
         writer.writerow([item])
     csvfile.close()
 

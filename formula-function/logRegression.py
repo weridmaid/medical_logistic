@@ -39,9 +39,12 @@ def trainLogRegres(train_x, train_y, opts):
     print '最大迭代次数：', maxIter
     weights = ones((numFeatures, 1))
     print '初始化权值：',weights
-
+    labda= opts['lambda']
+    print '正则化系数：', labda
+    l1error=0
     # optimize through gradient descent algorilthm
     for k in range(maxIter):
+        print '正在进行第%d次迭代...' % (k+1)
         if opts['optimizeType'] == 'gradDescent':  # gradient descent algorilthm
             output = sigmoid(train_x * weights)
             error = train_y - output
@@ -55,7 +58,14 @@ def trainLogRegres(train_x, train_y, opts):
                 # print 'train_y[i, 0]',train_y[i, 0]
                 error = train_y[i, 0] - output
                 #德尔塔w=alpha * train_x[i, :].transpose() * error
-                weights = weights + alpha * train_x[i, :].transpose() * error
+                for num in weights:
+                    if num >0:
+                        l1error=l1error+labda*1
+                    elif num<0:
+                        l1error = l1error - labda * 1
+                    else:
+                        pass
+                weights = weights + alpha * train_x[i, :].transpose() * error+ alpha *(l1error/numFeatures)
 
 
         elif opts['optimizeType'] == 'smoothStocGradDescent':  # smooth stochastic gradient descent

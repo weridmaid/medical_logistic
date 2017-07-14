@@ -1,10 +1,15 @@
 # coding=utf-8
 #################################################
-# logRegression: Logistic Regression
+# 代码原作者logRegression: Logistic Regression
 # Author : zouxy
 # Date   : 2014-03-02
 # HomePage : http://blog.csdn.net/zouxy09
 # Email  : zouxy09@qq.com
+#################################################
+#################################################
+# 修改logRegression: Logistic Regression
+# Author : zsy
+# Date   : 2017-7-14
 #################################################
 
 from numpy import *
@@ -54,7 +59,7 @@ test_y = train_y
 
 ## step 2: training...
 print "step 2: training..."
-opts = {'alpha': 0.01, 'maxIter': 100, 'optimizeType': 'stocGradDescent'}
+opts = {'alpha': 0.01, 'maxIter': 10, 'optimizeType': 'stocGradDescent','lambda':0.3}
 # opts = {'alpha': 0.01, 'maxIter': 100, 'optimizeType': 'smoothStocGradDescent'}
 optimalWeights = logRegression.trainLogRegres(train_x, train_y, opts)
 

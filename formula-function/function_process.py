@@ -1,8 +1,5 @@
 # coding=utf-8
 import data_process
-import dataDetailProcess
-
-
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -59,6 +56,7 @@ def func2feature(csvname1,csvname2):
         countlist.append(item[0])
 
     featurelist=[]
+    #这里可以修改需要判别的功效，放一个时会检索不到（‘.-’）
     locmark= countlist.index('祛风清热'.decode('utf-8'))
     print 'locmark',locmark
     for item in funcdata:
@@ -98,9 +96,9 @@ if __name__ == '__main__':
     # writecsvname='function_count_replace.csv'
     # data_process.write_in_csv(writecsvname,numarray)
 
-    #step 3 计算功效的类标
+    #step 3 计算功效的类标特征向量
     csvname1='function_1.csv'
     csvname2='function_count_replace.csv'
     featurelist=func2feature(csvname1,csvname2)
-    writecsvname='funcFeature.csv'
+    writecsvname='funcFeature.txt'
     data_process.write_list_in_csv(writecsvname,featurelist)

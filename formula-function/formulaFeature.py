@@ -81,9 +81,9 @@ def presFeature_1(csvname1,csvname2):
                             itemvalue=dataFeatureValue.findnum(item[mark+1])
                             # finalValue=(itemvalue-float(mediaclvalueList[location][2])+1)/(float(mediaclvalueList[location][3])+1)
                             #特征既有配伍成分，又考虑了单位数量
-                            featrue[location]=itemvalue
+                            featrue[location]=float(itemvalue)
                         else:
-                            featrue[location] = 28
+                            featrue[location] = float(28)
                     except:
                         # print 'wrong',wrongnum,item[0],mark,itemdata
                         wrongnum += 1
@@ -189,11 +189,11 @@ if __name__ == '__main__':
     # data_process.write_in_csv(writecsvname , pFeatrue)
 
     # (2)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数*********presFeature_realValue.csv
-    # csvname1 = 'prescription_6.csv'
-    # csvname2 = 'allMedicalCount.csv'
-    # pFeatrue = presFeature_1(csvname1, csvname2)
-    # writecsvname = 'presFeature_realValue.csv'
-    # data_process.write_in_csv(writecsvname, pFeatrue)
+    csvname1 = 'prescription_6.csv'
+    csvname2 = 'allMedicalCount.csv'
+    pFeatrue = presFeature_1(csvname1, csvname2)
+    writecsvname = 'presFeature_realValue.txt'
+    data_process.write_in_csv(writecsvname, pFeatrue)
 
     # (3)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数,在方剂中做归一化处理*********presFeature_standardValue.csv
     # csvname1 = 'prescription_6.csv'

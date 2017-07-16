@@ -22,8 +22,8 @@ import data_process
 def loadData():
     train_x = []
     train_y = []
-    presCsvname='presFeature_realValue.csv'
-    # presCsvname = 'presFeature_onehot.csv'
+    # presCsvname='presFeature_realValue.csv'
+    presCsvname = 'presFeature_onehot.csv'
     funcCsvname = 'funcFeature.csv'
     data = data_process.read_csv(presCsvname)
     labeldata=data_process.read_csv(funcCsvname)
@@ -59,7 +59,7 @@ test_y = train_y
 
 ## step 2: training...
 print "step 2: training..."
-opts = {'alpha': 0.01, 'maxIter': 10, 'optimizeType': 'stocGradDescent','lambda':0.3}
+opts = {'alpha': 0.01, 'maxIter': 50, 'optimizeType': 'stocGradDescent','lambda':0.3}
 # opts = {'alpha': 0.01, 'maxIter': 100, 'optimizeType': 'smoothStocGradDescent'}
 optimalWeights = logRegression.trainLogRegres(train_x, train_y, opts)
 

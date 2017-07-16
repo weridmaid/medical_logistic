@@ -39,7 +39,7 @@ def trainLogRegres(train_x, train_y, opts):
     print '最大迭代次数：', maxIter
     weights = ones((numFeatures, 1))
     print '初始化权值：',weights
-    labda= opts['lambda']
+    labda= float(opts['lambda'])
     print '正则化系数：', labda
     l1error=0
     # optimize through gradient descent algorilthm
@@ -58,14 +58,20 @@ def trainLogRegres(train_x, train_y, opts):
                 # print 'train_y[i, 0]',train_y[i, 0]
                 error = train_y[i, 0] - output
                 #德尔塔w=alpha * train_x[i, :].transpose() * error
+                numlist=[]
                 for num in weights:
+                    # print 'num',num
                     if num >0:
-                        l1error=l1error+labda*1
+                        numlist.append(1)
                     elif num<0:
-                        l1error = l1error - labda * 1
+                        numlist.append(-1)
                     else:
-                        pass
-                weights = weights + alpha * train_x[i, :].transpose() * error+ alpha *(l1error/numFeatures)
+                        numlist.append(0)
+                numlist=mat(numlist)
+                # print 'numlist',numlist
+                # print 'numlist.transpose()', numlist.transpose()
+                # print 'train_x[i, :].transpose()', train_x[i, :].transpose()
+                weights = weights + alpha * train_x[i, :].transpose() * error-alpha *labda* numlist.transpose()/numSamples
 
 
         elif opts['optimizeType'] == 'smoothStocGradDescent':  # smooth stochastic gradient descent
@@ -82,7 +88,7 @@ def trainLogRegres(train_x, train_y, opts):
             raise NameError('Not support optimize method type!')
 
     print 'Congratulations, training complete! Took %fs!' % (time.time() - startTime)
-    data_process.write_list_in_csv('weights_test.csv',weights)
+    data_process.write_list_in_csv('weights_0.3.csv',weights)
     return weights
 
 

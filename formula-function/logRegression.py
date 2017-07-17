@@ -15,6 +15,9 @@ from numpy import *
 import matplotlib.pyplot as plt
 import time
 import data_process
+import random
+
+
 
 
 # calculate the sigmoid function
@@ -29,7 +32,6 @@ def sigmoid(inX):
 def trainLogRegres(train_x, train_y, opts):
     # calculate training time
     startTime = time.time()
-
     numSamples, numFeatures = shape(train_x)
     print '样本数量：',numSamples
     print '每个实例有多少维特征：', numFeatures
@@ -38,10 +40,14 @@ def trainLogRegres(train_x, train_y, opts):
     maxIter = opts['maxIter']
     print '最大迭代次数：', maxIter
     weights = ones((numFeatures, 1))
+    #把权重随机初始化在（-0.01,0.01之间）
+    n=0
+    for i in weights:
+        weights[n]=weights[n]*random.uniform(-0.1,0.1)
+        n+=1
     print '初始化权值：',weights
     labda= float(opts['lambda'])
     print '正则化系数：', labda
-    l1error=0
     # optimize through gradient descent algorilthm
     for k in range(maxIter):
         print '正在进行第%d次迭代...' % (k+1)
@@ -71,7 +77,7 @@ def trainLogRegres(train_x, train_y, opts):
                 # print 'numlist',numlist
                 # print 'numlist.transpose()', numlist.transpose()
                 # print 'train_x[i, :].transpose()', train_x[i, :].transpose()
-                weights = weights + alpha * train_x[i, :].transpose() * error-alpha *labda* numlist.transpose()/numSamples
+                weights = weights + alpha * train_x[i, :].transpose() * error-alpha *labda* numlist.transpose()
 
 
         elif opts['optimizeType'] == 'smoothStocGradDescent':  # smooth stochastic gradient descent
@@ -88,7 +94,7 @@ def trainLogRegres(train_x, train_y, opts):
             raise NameError('Not support optimize method type!')
 
     print 'Congratulations, training complete! Took %fs!' % (time.time() - startTime)
-    data_process.write_list_in_csv('weights_0.3.csv',weights)
+    data_process.write_list_in_csv('weights_0.1.csv',weights)
     return weights
 
 

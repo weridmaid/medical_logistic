@@ -59,7 +59,7 @@ test_y = train_y
 
 ## step 2: training...
 print "step 2: training..."
-opts = {'alpha': 0.01, 'maxIter': 50, 'optimizeType': 'stocGradDescent','lambda':0.3}
+opts = {'alpha': 0.01, 'maxIter': 50, 'optimizeType': 'stocGradDescent','lambda':0.1}
 # opts = {'alpha': 0.01, 'maxIter': 100, 'optimizeType': 'smoothStocGradDescent'}
 optimalWeights = logRegression.trainLogRegres(train_x, train_y, opts)
 

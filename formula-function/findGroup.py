@@ -8,7 +8,7 @@ sys.setdefaultencoding('utf-8')
 
 if __name__ == '__main__':
     print '从训练好的logistic模型参数中找出占主导作用的药物...'
-    readcsvname='weights_0.4.csv'
+    readcsvname='weights_0.1.csv'
     weightdata=data_process.read_csv(readcsvname)
     csvname='allMedicalCount.csv'
     medicaldata=data_process.read_csv(csvname)
@@ -33,10 +33,11 @@ if __name__ == '__main__':
         # print 'zz',item[0]
         if num==0:
             pass
-        if float(item[0])>1 or float(item[0])<-1:
-            zz.append(medicallist[num-1])
-            zz.append(item[0])
-            importantMedical.append(zz)
+        else:
+            if float(item[0])>0.001 or float(item[0])<-0.004:
+                zz.append(medicallist[num-1])
+                zz.append(item[0])
+                importantMedical.append(zz)
         num+=1
 
     print '当功效为‘祛风清热’时，占主导作用的药物组合是：\n'

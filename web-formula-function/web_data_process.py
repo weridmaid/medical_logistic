@@ -54,7 +54,7 @@ def createListCSV(fileName, dataList):
 def read_csv(csv_name):
         print ('read_csv')
         # python2.7
-        csvfile = file('../webData/%s' % csv_name, 'rb')
+        csvfile = file('../webData/%s' % csv_name, "rU")
         csv_data = csv.reader(csvfile)
         # 查看取出指定行列的data start
         # a=0   #行

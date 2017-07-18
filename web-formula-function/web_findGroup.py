@@ -1,17 +1,17 @@
 # coding=utf-8
 import re
 import sys
-import dataFeatureValue
-import data_process
+import web_dataFeatureValue
+import web_data_process
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
 if __name__ == '__main__':
     print '从训练好的logistic模型参数中找出占主导作用的药物...'
     readcsvname='weights_0.2.csv'
-    weightdata=data_process.read_csv(readcsvname)
+    weightdata=web_data_process.read_csv(readcsvname)
     csvname='allMedicalCount.csv'
-    medicaldata=data_process.read_csv(csvname)
+    medicaldata=web_data_process.read_csv(csvname)
     medicallist=[]
     importantMedical=[]
     weightlist=[]

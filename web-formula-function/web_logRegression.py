@@ -14,7 +14,7 @@
 from numpy import *
 import matplotlib.pyplot as plt
 import time
-import data_process
+import web_data_process
 import random
 
 
@@ -94,7 +94,7 @@ def trainLogRegres(train_x, train_y, opts):
             raise NameError('Not support optimize method type!')
 
     print 'Congratulations, training complete! Took %fs!' % (time.time() - startTime)
-    data_process.write_list_in_csv('mytest_1_0.01.csv',weights)
+    web_data_process.write_list_in_csv('mytest_1_0.01.csv', weights)
     return weights
 
 

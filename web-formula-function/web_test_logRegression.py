@@ -15,8 +15,8 @@
 from numpy import *
 import matplotlib.pyplot as plt
 import time
-import logRegression
-import data_process
+import web_logRegression
+import web_data_process
 
 
 def loadData():
@@ -25,8 +25,8 @@ def loadData():
     # presCsvname='presFeature_realValue.csv'
     presCsvname = 'presFeature_onehot.csv'
     funcCsvname = 'funcFeature.csv'
-    data = data_process.read_csv(presCsvname)
-    labeldata=data_process.read_csv(funcCsvname)
+    data = web_data_process.read_csv(presCsvname)
+    labeldata=web_data_process.read_csv(funcCsvname)
     num=0
     for i in data:
         if num==0:
@@ -63,20 +63,20 @@ print "step 2: training..."
 
 opts = {'alpha': 0.01, 'maxIter': 50, 'optimizeType': 'stocGradDescent','lambda':0.1}
 # opts = {'alpha': 0.01, 'maxIter': 100, 'optimizeType': 'smoothStocGradDescent'}
-optimalWeights = logRegression.trainLogRegres(train_x, train_y, opts)
+optimalWeights = web_logRegression.trainLogRegres(train_x, train_y, opts)
 
 ## step 3: testing
 print "step 3: testing..."
-accuracy = logRegression.testLogRegres(optimalWeights, test_x, test_y)
+accuracy = web_logRegression.testLogRegres(optimalWeights, test_x, test_y)
 
 
 condiction='学习因子（尼尔塔）：0.01 最大迭代次数：50 正则化因子（拉姆达）：0.1 初始权重：1'
 recordlist=[]
 recordlist.append(condiction)
 recordlist.append(accuracy* 100)
-data_process.write_list_in_csv_a('acc.csv',recordlist)
+web_data_process.write_list_in_csv_a('acc.csv', recordlist)
 
 ## step 4: show the result
 print "step 4: show the result..."
 print 'The classify accuracy is: %.3f%%' % (accuracy * 100)
-logRegression.showLogRegres(optimalWeights, train_x, train_y)
+web_logRegression.showLogRegres(optimalWeights, train_x, train_y)

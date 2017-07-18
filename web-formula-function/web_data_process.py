@@ -7,29 +7,10 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-def readexcel(excel_name,sheet_index):
-    print ('readexcel')
-    data = xlrd.open_workbook('../exceldata/%s'%excel_name)
-    # 获取一个工作表
-    table = data.sheet_by_index(sheet_index)   #通过索引顺序获取 sheet从0张开始排序
-    # 获取行数和列数
-    nrows = table.nrows   #行数
-    excelrow=[]
-    for i in range(nrows) :
-        excelrow.append(table.row_values(i))
-    return excelrow
-
- #从excel中读出数据保存在csv里
-def exceltocsv(excel_name,sheet_index,csv_name):
-    print ('exceltocsv')
-    excelrow=readexcel(excel_name, sheet_index)
-    print ('********************excel****************************')
-    write_in_csv(csv_name,excelrow)
-
 #csv_name:要写入的cvs名称，datas：对应要写入的数据
 def write_in_csv(csv_name,datas):
     print ('write_in_csv')
-    csvfile = file('../formulaData/%s'%csv_name, 'wb')
+    csvfile = file('../webData/%s'%csv_name, 'wb')
     csvfile.write(codecs.BOM_UTF8)
     writer = csv.writer(csvfile)
     writer.writerows(datas)
@@ -41,7 +22,7 @@ def write_in_csv(csv_name,datas):
 def write_list_in_csv(csv_name,datas):
     print ('write_list_in_csv')
     #'wb'覆盖写入,'a'追加写入
-    csvfile = file('../formulaData/%s' % csv_name, 'wb')
+    csvfile = file('../webData/%s' % csv_name, 'wb')
     csvfile.write(codecs.BOM_UTF8)
     writer = csv.writer(csvfile)
     for item in datas:
@@ -52,7 +33,7 @@ def write_list_in_csv(csv_name,datas):
 def write_list_in_csv_a(csv_name, datas):
         print ('write_list_in_csv_a')
         # 'wb'覆盖写入,'a'追加写入
-        csvfile = file('../formulaData/%s' % csv_name, 'a')
+        csvfile = file('../webData/%s' % csv_name, 'a')
         csvfile.write(codecs.BOM_UTF8)
         writer = csv.writer(csvfile)
         for item in datas:
@@ -63,7 +44,7 @@ def write_list_in_csv_a(csv_name, datas):
 # 功能：将一个二重列表[[],[]]写入到csv文件中
 # 输入：文件名称，数据列表
 def createListCSV(fileName, dataList):
-        csvFile = file('../formulaData/%s' % fileName, 'wb')
+        csvFile = file('../webData/%s' % fileName, 'wb')
     # with csv.writer('../formulaData/%s' %fileName, "wb") as csvFile:
         csvWriter = csv.writer(csvFile)
         for data in dataList:
@@ -73,7 +54,7 @@ def createListCSV(fileName, dataList):
 def read_csv(csv_name):
         print ('read_csv')
         # python2.7
-        csvfile = file('../formulaData/%s' % csv_name, 'rb')
+        csvfile = file('../webData/%s' % csv_name, 'rb')
         csv_data = csv.reader(csvfile)
         # 查看取出指定行列的data start
         # a=0   #行

@@ -10,7 +10,7 @@ sys.setdefaultencoding('utf-8')
 #把compostion_1.csv里的数据取出来，按空格分割提取每个成分；
 #注意！这里处理后有的数据会出现多余的空格！***************手动处理那些多余的空格。。。**************************
 #eg.地骨皮30g  防风30g  甘草15g(微炙) =============> 地骨皮30g,防风30g,甘草15g(微炙)
-def composition_process(readcsvname,writecsvname):
+def composition_process(readcsvname):
     print ('composition_process')
     # readcsvname='composition_6.csv'
     csvdata=web_data_process.read_csv(readcsvname)
@@ -27,15 +27,7 @@ def composition_process(readcsvname,writecsvname):
         datas.append(item)
         i+=1
 
-    # j=1
-    # for item in datas:
-    #     print 'j', j
-    #     j+=1
-    #     print item
-    #     for itemdata in item:
-    #         print 'zz',itemdata
-
-    web_data_process.write_in_csv(writecsvname, datas)
+    return datas
 
 #自动去除上述方法处理后还存在的空格
 def process_blank(readcsvname,writecsvname):

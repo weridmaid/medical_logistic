@@ -181,6 +181,7 @@ def webSix(readcsvname,writecsvname):
        num+=1
     web_data_process.write_in_csv(writecsvname, data)
 
+#处理每个（药名+对应的数量单位）+一些无可避免的手动处理（还差单位统一为g
 def webProcessNum(readcsvname,writecsvname):
     print 'webProcessNum'
     csvdata = web_data_process.read_csv(readcsvname)
@@ -212,7 +213,7 @@ def webProcessNum(readcsvname,writecsvname):
             else:
                 #情况一：升麻 =》只有字
                 if not pattern3.search(item):
-                    print '1', item
+                    # print '1', item
                     word =item
                     wordnumber='None'
                     medicallist.append(word)
@@ -220,7 +221,7 @@ def webProcessNum(readcsvname,writecsvname):
 
                 #情况三：（6g）=>只有数量
                 if pattern5.search(item):
-                    print '3',item
+                    # print '3',item
                     wordnumber = re.sub(pattern2, '', item)
                     k=0
                     for item in medicallist:
@@ -286,7 +287,72 @@ def webProcessNum(readcsvname,writecsvname):
         num += 1
     web_data_process.write_in_csv(writecsvname,finaldata)
 
+def UnifiedDose(readcsvname,writecsvname):
+    print 'UnifiedDose'
+    csvdata = web_data_process.read_csv(readcsvname)
+    normalList=[]
+    for item in csvdata:
+        # print 'item',item
+        midList = []
+        for itemdata in item:
+            # print 'itemdata', itemdata
+            itemdata=itemdata.decode('utf8')
+            if (itemdata.find('两') > 0):
+                try:
+                    zz = itemdata.split('两')
+                    # print 'split itemdata', itemdata
+                    unit = float(zz[0]) * 50
+                    # print 'unit', unit
+                    changeunit = str(unit) + 'g'
+                    # print 'changeunit', changeunit
+                    midList.append(changeunit)
+                except:midList.append(itemdata)
+            elif(itemdata.find('钱')>0):
+                try:
+                    zz = itemdata.split('钱')
+                    unit=float(zz[0])*3.125
+                    # print 'unit',unit
+                    changeunit=str(unit)+'g'
+                    midList.append(changeunit)
+                except:
+                    midList.append(itemdata)
+            elif(itemdata.find('kg')>0):
+                try:
+                    zz = itemdata.split('kg')
+                    unit=float(zz[0])*1000
+                    changeunit=str(unit)+'g'
+                    midList.append(changeunit)
+                except:
+                    midList.append(itemdata)
+            elif(itemdata.find('Kg')>0):
+                try:
+                    zz = itemdata.split('Kg')
+                    unit=float(zz[0])*1000
+                    changeunit=str(unit)+'g'
+                    midList.append(changeunit)
+                except:
+                    midList.append(itemdata)
+            elif (itemdata.find('斤') > 0):
+                try:
+                    zz = itemdata.split('斤')
+                    unit = float(zz[0]) * 500
+                    changeunit = str(unit) + 'g'
+                    midList.append(changeunit)
+                except:
+                    midList.append(itemdata)
+            elif (itemdata.find('分') > 0):
+                try:
+                    zz = itemdata.split('斤')
+                    unit = float(zz[0]) * 0.3
+                    changeunit = str(unit) + 'g'
+                    midList.append(changeunit)
+                except:
+                    midList.append(itemdata)
+            else:
+                midList.append(itemdata)
+        normalList.append(midList)
 
+    web_data_process.write_in_csv(writecsvname , normalList)
 
 
 if __name__ == '__main__':
@@ -328,10 +394,15 @@ if __name__ == '__main__':
     # webSix(readcsvname,writecsvname)
 
 
-    #最后一步
-    readcsvname = 'webFormula_5.csv'
-    writecsvname = 'webFormula_6.csv'
-    webProcessNum(readcsvname,writecsvname)
+    #处理每个（药名+对应的数量单位）+一些无可避免的手动处理（还差单位统一为g
+    # readcsvname = 'webFormula_5.csv'
+    # writecsvname = 'webFormula_6.csv'
+    # webProcessNum(readcsvname,writecsvname)
+
+    #尽量把能换算的单位 统一为g
+    readcsvname = 'webFormula_6.csv'
+    writecsvname = 'webFormula_final.csv'
+    UnifiedDose(readcsvname,writecsvname)
 
 
 

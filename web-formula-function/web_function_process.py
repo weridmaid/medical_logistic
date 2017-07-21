@@ -30,15 +30,15 @@ def function_count(csvname):
     csv_data = web_data_process.read_csv(csvname)
     flist=[]
     for item in csv_data:
-        j=0
+        # j=0
         for itemdata in item:
-            if j!=0 and itemdata!='':
+            # if j!=0 and itemdata!='':
                 print 'itemdata',itemdata
                 itemdata=itemdata.replace('疏风','祛风')
                 itemdata = itemdata.replace('散风', '祛风')
                 itemdata = itemdata.replace('驱风', '祛风')
                 flist.append(itemdata)
-            j+=1
+            # j+=1
     print '所有方剂中的功效有（没有去重）：',len(flist)
     #去重 计算有多少不同的功效
     flistset=list(set(flist))
@@ -73,6 +73,7 @@ def func2feature(csvname1,csvname2):
     for item in funcdata:
         check=0
         for itemdata in item :
+            itemdata = itemdata.replace('﻿', '')
             itemdata=itemdata.replace('疏风','祛风')
             itemdata = itemdata.replace('散风', '祛风')
             itemdata = itemdata.replace('驱风', '祛风')
@@ -101,13 +102,13 @@ if __name__ == '__main__':
     # web_data_process.write_in_csv(writecsvname,datalist)
 
     #step 2 计算有多少种功效，每种功效出现的次数和比例
-    # csvname='webFunction_2.csv'
+    # csvname='webFunction_3.csv'
     # numarray=function_count(csvname)
     # writecsvname = 'webFunction_count.csv'
     # web_data_process.write_in_csv(writecsvname,numarray)
 
     #step 3 计算功效的类标特征向量
-    csvname1='webFunction_2.csv'
+    csvname1='webFunction_3.csv'
     csvname2='webFunction_count.csv'
     featurelist=func2feature(csvname1,csvname2)
     writecsvname='webFuncFeature.csv'

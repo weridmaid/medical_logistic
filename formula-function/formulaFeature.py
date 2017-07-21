@@ -27,8 +27,9 @@ def presFeature(csvname1,csvname2):
     #allData_normal1.csv一共有药物1487种
     for item in prescriptiondata:
         # print 'item:',item
+        item[0] = item[0].replace('﻿', '')
         mark = 0
-        featrue = [0] * 1486
+        featrue = [0] * 1563
         for itemdata in item:
                 if(( mark % 2) == 0):
                     try:
@@ -41,7 +42,7 @@ def presFeature(csvname1,csvname2):
                         #只关心配伍成分，不关心单位数量
                         featrue[location]=1
                     except:
-                        # print 'wrong',wrongnum,item[0],mark,itemdata
+                        print 'wrong',wrongnum,j,item[0],mark,itemdata
                         wrongnum += 1
                     mark += 1
                 else:
@@ -70,8 +71,9 @@ def presFeature_1(csvname1,csvname2):
     wrongnum=1
     for item in prescriptiondata:
         # print 'item:',item
+        item[0] = item[0].replace('﻿', '')
         mark = 0
-        featrue = [0] * 1486
+        featrue = [0] * 1563
         for itemdata in item:
                 if(( mark % 2) == 0):
                     try:
@@ -112,8 +114,9 @@ def presFeature_2(csvname1,csvname2):
     wrongnum=1
     for item in prescriptiondata:
         # print 'item:',item
+        item[0] = item[0].replace('﻿', '')
         mark = 0
-        featrue = [0] * 1487
+        featrue = [0] * 1563
         lenth=len(item)
         thisall=0
         for i in range(0,lenth):
@@ -189,11 +192,11 @@ if __name__ == '__main__':
     # data_process.write_in_csv(writecsvname , pFeatrue)
 
     # (2)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数*********presFeature_realValue.csv
-    csvname1 = 'prescription_6.csv'
-    csvname2 = 'allMedicalCount.csv'
-    pFeatrue = presFeature_1(csvname1, csvname2)
-    writecsvname = 'presFeature_realValue.txt'
-    data_process.write_in_csv(writecsvname, pFeatrue)
+    # csvname1 = 'prescription_6.csv'
+    # csvname2 = 'allMedicalCount.csv'
+    # pFeatrue = presFeature_1(csvname1, csvname2)
+    # writecsvname = 'presFeature_realValue.csv'
+    # data_process.write_in_csv(writecsvname, pFeatrue)
 
     # (3)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数,在方剂中做归一化处理*********presFeature_standardValue.csv
     # csvname1 = 'prescription_6.csv'

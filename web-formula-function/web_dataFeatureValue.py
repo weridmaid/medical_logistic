@@ -77,13 +77,14 @@ def countallmedical(readcsvname):
         # print 'item:',item
         mark = 0
         for itemdata in item:
-            data_value = []
-            if (mark == 0):
-                mark += 1
-                continue
-            else:
+                data_value = []
+            # if (mark == 0):
+            #     mark += 1
+            #     continue
+            # else:
                 if(( mark % 2) == 0):
                     itemdata = itemdata.strip()
+                    itemdata=itemdata.replace('﻿', '')
                     itemdata = itemdata.replace('l', '')
                     itemdata = itemdata.decode('utf8')
                     # print 'itemdata zzz', itemdata

@@ -27,8 +27,9 @@ def presFeature(csvname1,csvname2):
     #allData_normal1.csv一共有药物1487种
     for item in prescriptiondata:
         # print 'item:',item
+        item[0]=item[0].replace('﻿', '')
         mark = 0
-        featrue = [0] * 1486
+        featrue = [0] * 463
         for itemdata in item:
                 if(( mark % 2) == 0):
                     try:
@@ -41,7 +42,7 @@ def presFeature(csvname1,csvname2):
                         #只关心配伍成分，不关心单位数量
                         featrue[location]=1
                     except:
-                        # print 'wrong',wrongnum,item[0],mark,itemdata
+                        print 'wrong',wrongnum,j,item[0],mark,itemdata
                         wrongnum += 1
                     mark += 1
                 else:
@@ -70,8 +71,9 @@ def presFeature_1(csvname1,csvname2):
     wrongnum=1
     for item in prescriptiondata:
         # print 'item:',item
+        item[0] = item[0].replace('﻿', '')
         mark = 0
-        featrue = [0] * 1486
+        featrue = [0] * 463
         for itemdata in item:
                 if(( mark % 2) == 0):
                     try:
@@ -112,8 +114,9 @@ def presFeature_2(csvname1,csvname2):
     wrongnum=1
     for item in prescriptiondata:
         # print 'item:',item
+        item[0] = item[0].replace('﻿', '')
         mark = 0
-        featrue = [0] * 1487
+        featrue = [0] * 463
         lenth=len(item)
         thisall=0
         for i in range(0,lenth):
@@ -121,7 +124,7 @@ def presFeature_2(csvname1,csvname2):
                 if item[i] != 'None':
                     thisall = thisall + web_dataFeatureValue.findnum(item[i])
                 else:
-                    thisall=thisall+28
+                    thisall=thisall+42
         for itemdata in item:
                 if(( mark % 2) == 0):
                     try:
@@ -133,7 +136,7 @@ def presFeature_2(csvname1,csvname2):
                             #特征既有配伍成分，又考虑了单位数量和归一化
                             featrue[location]=itemvalue/thisall
                         else:
-                            featrue[location] = 28/thisall
+                            featrue[location] = 42/thisall
                     except:
                         # print 'wrong',wrongnum,item[0],mark,itemdata
                         wrongnum += 1
@@ -175,36 +178,36 @@ if __name__ == '__main__':
     print '计算配方的特征向量...'
 
     #step 1 统计所有处方中共有多少种药物出现过
-    # readcsvname='prescription_6.csv'
-    # numarray=dataFeatureValue.countallmedical(readcsvname)
-    # writecsvname = 'allMedicalCount.csv'
-    # data_process.write_in_csv(writecsvname , numarray)
+    # readcsvname='webFormula_final_2.csv'
+    # numarray=web_dataFeatureValue.countallmedical(readcsvname)
+    # writecsvname = 'webAllMedicalCount.csv'
+    # web_data_process.write_in_csv(writecsvname , numarray)
 
     #step 2 计算方剂向量特征
     #(1)使用one-hot表示，每个方剂的维数等于所有方剂中药物的去重个数，若出现则为1 *********presFeature_onehot.csv
-    # csvname1='prescription_6.csv'
-    # csvname2 = 'allMedicalCount.csv'
+    # csvname1='webFormula_final_2.csv'
+    # csvname2 = 'webAllMedicalCount.csv'
     # pFeatrue= presFeature(csvname1,csvname2)
-    # writecsvname = 'presFeature_onehot.csv'
-    # data_process.write_in_csv(writecsvname , pFeatrue)
+    # writecsvname = 'webPresFeature_onehot.csv'
+    # web_data_process.write_in_csv(writecsvname , pFeatrue)
 
     # (2)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数*********presFeature_realValue.csv
-    # csvname1 = 'prescription_6.csv'
-    # csvname2 = 'allMedicalCount.csv'
+    # csvname1 = 'webFormula_final_2.csv'
+    # csvname2 = 'webAllMedicalCount.csv'
     # pFeatrue = presFeature_1(csvname1, csvname2)
-    # writecsvname = 'presFeature_realValue.txt'
+    # writecsvname = 'webPresFeature_realValue.csv'
     # web_data_process.write_in_csv(writecsvname, pFeatrue)
 
     # (3)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数,在方剂中做归一化处理*********presFeature_standardValue.csv
-    # csvname1 = 'prescription_6.csv'
-    # csvname2 = 'allMedicalCount.csv'
+    # csvname1 = 'webFormula_final_2.csv'
+    # csvname2 = 'webAllMedicalCount.csv'
     # pFeatrue = presFeature_2(csvname1, csvname2)
-    # writecsvname = 'presFeature_standardValue.csv'
-    # data_process.write_in_csv(writecsvname, pFeatrue)
+    # writecsvname = 'webPresFeature_standardValue.csv'
+    # web_data_process.write_in_csv(writecsvname, pFeatrue)
 
 
 
      #strep other 计算方剂剂量的均值
-    # csvname = 'prescription_6.csv'
+    # csvname = 'webFormula_final_2.csv'
     # computeAverage(csvname)
 

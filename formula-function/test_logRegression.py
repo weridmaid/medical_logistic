@@ -20,27 +20,85 @@ import data_process
 
 
 def loadData():
+    #版本一 没有抽样，全部数据 start
+    # train_x = []
+    # train_y = []
+    # # presCsvname='presFeature_realValue.csv'
+    # presCsvname = 'presFeature_onehot.csv'
+    # funcCsvname = 'funcFeature.csv'
+    # data = data_process.read_csv(presCsvname)
+    # labeldata=data_process.read_csv(funcCsvname)
+    # num=0
+    # for i in data:
+    #     if num==0:
+    #         i[0]=i[0].replace('﻿', '')
+    #     i=[float(item) for item in i]
+    #     i.insert(0,1.0)
+    #     train_x.append(i)
+    #     num+=1
+    # num = 0
+    # for j in labeldata:
+    #     if num==0:
+    #         j[0]=j[0].replace('﻿', '')
+    #     train_y.append(float(j[0]))
+    #     num += 1
+    # 版本一 没有抽样，全部数据 end
+
+    #版本二 加了抽样，样本正反例数据平衡 start
     train_x = []
     train_y = []
+    rem = []
     # presCsvname='presFeature_realValue.csv'
     presCsvname = 'presFeature_onehot.csv'
     funcCsvname = 'funcFeature.csv'
     data = data_process.read_csv(presCsvname)
-    labeldata=data_process.read_csv(funcCsvname)
-    num=0
-    for i in data:
-        if num==0:
-            i[0]=i[0].replace('﻿', '')
-        i=[float(item) for item in i]
-        i.insert(0,1.0)
-        train_x.append(i)
-        num+=1
+    labeldata = data_process.read_csv(funcCsvname)
+    # csv内容存放在list才可再读
+    labellist = []
     num = 0
     for j in labeldata:
-        if num==0:
-            j[0]=j[0].replace('﻿', '')
-        train_y.append(float(j[0]))
+        labellist.append(j)
+        if num == 0:
+            j[0] = j[0].replace('﻿', '')
+        # print j
+        if int(j[0]) == 1:
+            rem.append(num)
+            train_y.append(float(j[0]))
         num += 1
+    print 'len(rem)1', len(rem)
+    print 'len(train_y)1', len(train_y)
+
+    positiveNum = len(rem) + 1
+    count = 0
+    num = 0
+    for k in labellist:
+        if num == 0:
+            k[0] = k[0].replace('﻿', '')
+        # print k[0]
+        if k[0] == '0' and count < positiveNum:
+            # print float(k[0])
+            rem.append(num)
+            train_y.append(float(k[0]))
+            count += 1
+        num += 1
+    print 'len(rem)2', len(rem)
+    print 'train_y2', len(train_y)
+
+    num = 0
+    for i in data:
+        # print num
+        if num == 0:
+            i[0] = i[0].replace('﻿', '')
+        try:
+            rem.index(num)
+            i = [float(item) for item in i]
+            i.insert(0, 1.0)
+            train_x.append(i)
+        except:
+            pass
+        num += 1
+    print 'train_x', len(train_x)
+    # 版本二 加了抽样，样本正反例数据平衡 end
 
     #别人的例子
     # fileIn = open('../Ch05/testSet.txt')
@@ -56,6 +114,7 @@ train_x, train_y = loadData()
 test_x = train_x
 test_y = train_y
 
+num=1
 for i in range(2,11):
    print '迭代次数设置：',i*10
    maxiter=i*10
@@ -67,8 +126,7 @@ for i in range(2,11):
 
         opts = {'alpha': 0.01, 'maxIter': maxiter, 'optimizeType': 'stocGradDescent','lambda':lamda}
         # opts = {'alpha': 0.01, 'maxIter': 100, 'optimizeType': 'smoothStocGradDescent'}
-        word='weight'+str(maxiter)+'_'+str(lamda)+'csv'
-        writecsvname='.csv'
+        writecsvname='weight'+str(maxiter)+'_'+str(lamda)+'csv'
         optimalWeights = logRegression.trainLogRegres(train_x, train_y, opts,writecsvname)
 
         ## step 3: testing
@@ -77,10 +135,10 @@ for i in range(2,11):
 
         ## step 4: show and write the result
         print "step 4: write the result in ExResult.csv..."
-        condiction='学习因子（尼尔塔）：0.01 最大迭代次数：%d 正则化因子（拉姆达）：%f 初始权重：1'%(maxiter,lamda)
+        condiction='%d# 学习因子（尼尔塔）：0.01 最大迭代次数：%d 正则化因子（拉姆达）：%f 初始权重：(-0.1,0.1) acc:%f'%(num,maxiter,lamda,accuracy* 100)
         recordlist=[]
         recordlist.append(condiction)
-        recordlist.append(accuracy* 100)
         data_process.write_list_in_csv_a('ExResult.csv',recordlist)
         print 'The classify accuracy is: %.3f%%' % (accuracy * 100)
+        num +=1
         # logRegression.showLogRegres(optimalWeights, train_x, train_y)

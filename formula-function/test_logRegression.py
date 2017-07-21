@@ -50,33 +50,37 @@ def loadData():
     #     train_y.append(float(lineArr[2]))
     return mat(train_x), mat(train_y).transpose()
 
-
 ## step 1: load data
 print "step 1: load data..."
 train_x, train_y = loadData()
 test_x = train_x
 test_y = train_y
 
-## step 2: training...
-print "step 2: training..."
+for i in range(2,11):
+   print '迭代次数设置：',i*10
+   maxiter=i*10
+   for j in range(1,11):
+        print '正则化因子lamda设置：',round((float(j)/10),2)
+        lamda=round((float(j)/10),2)
+        ## step 2: training...
+        print "step 2: training..."
 
+        opts = {'alpha': 0.01, 'maxIter': maxiter, 'optimizeType': 'stocGradDescent','lambda':lamda}
+        # opts = {'alpha': 0.01, 'maxIter': 100, 'optimizeType': 'smoothStocGradDescent'}
+        word='weight'+str(maxiter)+'_'+str(lamda)+'csv'
+        writecsvname='.csv'
+        optimalWeights = logRegression.trainLogRegres(train_x, train_y, opts,writecsvname)
 
-opts = {'alpha': 0.01, 'maxIter': 50, 'optimizeType': 'stocGradDescent','lambda':0.1}
-# opts = {'alpha': 0.01, 'maxIter': 100, 'optimizeType': 'smoothStocGradDescent'}
-optimalWeights = logRegression.trainLogRegres(train_x, train_y, opts)
+        ## step 3: testing
+        print "step 3: testing..."
+        accuracy = logRegression.testLogRegres(optimalWeights, test_x, test_y)
 
-## step 3: testing
-print "step 3: testing..."
-accuracy = logRegression.testLogRegres(optimalWeights, test_x, test_y)
-
-
-condiction='学习因子（尼尔塔）：0.01 最大迭代次数：50 正则化因子（拉姆达）：0.1 初始权重：1'
-recordlist=[]
-recordlist.append(condiction)
-recordlist.append(accuracy* 100)
-data_process.write_list_in_csv_a('acc.csv',recordlist)
-
-## step 4: show the result
-print "step 4: show the result..."
-print 'The classify accuracy is: %.3f%%' % (accuracy * 100)
-logRegression.showLogRegres(optimalWeights, train_x, train_y)
+        ## step 4: show and write the result
+        print "step 4: write the result in ExResult.csv..."
+        condiction='学习因子（尼尔塔）：0.01 最大迭代次数：%d 正则化因子（拉姆达）：%f 初始权重：1'%(maxiter,lamda)
+        recordlist=[]
+        recordlist.append(condiction)
+        recordlist.append(accuracy* 100)
+        data_process.write_list_in_csv_a('ExResult.csv',recordlist)
+        print 'The classify accuracy is: %.3f%%' % (accuracy * 100)
+        # logRegression.showLogRegres(optimalWeights, train_x, train_y)

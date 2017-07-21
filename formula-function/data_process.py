@@ -41,7 +41,8 @@ def write_in_csv(csv_name,datas):
 def write_list_in_csv(csv_name,datas):
     print ('write_list_in_csv')
     #'wb'覆盖写入,'a'追加写入
-    csvfile = file('../formulaData/%s' % csv_name, 'wb')
+    # csvfile = file('../formulaData/%s' % csv_name, 'wb')
+    csvfile = file('../resultsdata/%s' % csv_name, 'wb')
     csvfile.write(codecs.BOM_UTF8)
     writer = csv.writer(csvfile)
     for item in datas:
@@ -52,7 +53,8 @@ def write_list_in_csv(csv_name,datas):
 def write_list_in_csv_a(csv_name, datas):
         print ('write_list_in_csv_a')
         # 'wb'覆盖写入,'a'追加写入
-        csvfile = file('../formulaData/%s' % csv_name, 'a')
+        # csvfile = file('../formulaData/%s' % csv_name, 'a')
+        csvfile = file('../resultsdata/%s' % csv_name, 'a')
         csvfile.write(codecs.BOM_UTF8)
         writer = csv.writer(csvfile)
         for item in datas:

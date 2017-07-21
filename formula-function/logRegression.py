@@ -29,7 +29,7 @@ def sigmoid(inX):
 # input: train_x is a mat datatype, each row stands for one sample
 #        train_y is mat datatype too, each row is the corresponding label
 #        opts is optimize option include step and maximum number of iterations
-def trainLogRegres(train_x, train_y, opts):
+def trainLogRegres(train_x, train_y, opts,writecsvname):
     # calculate training time
     startTime = time.time()
     numSamples, numFeatures = shape(train_x)
@@ -41,10 +41,10 @@ def trainLogRegres(train_x, train_y, opts):
     print '最大迭代次数：', maxIter
     weights = ones((numFeatures, 1))
     #把权重随机初始化在（-0.01,0.01之间）
-    # n=0
-    # for i in weights:
-    #     weights[n]=round(weights[n]*random.uniform(-0.1,0.1),4)
-    #     n+=1
+    n=0
+    for i in weights:
+        weights[n]=round(weights[n]*random.uniform(-0.1,0.1),4)
+        n+=1
     print '初始化权值：',weights
     labda= float(opts['lambda'])
     print '正则化系数：', labda
@@ -94,7 +94,7 @@ def trainLogRegres(train_x, train_y, opts):
             raise NameError('Not support optimize method type!')
 
     print 'Congratulations, training complete! Took %fs!' % (time.time() - startTime)
-    data_process.write_list_in_csv('mytest_1_0.01.csv',weights)
+    data_process.write_list_in_csv(writecsvname,weights)
     return weights
 
 

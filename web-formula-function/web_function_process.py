@@ -12,9 +12,15 @@ def process_symbol(csv_data):
         # print 'item :',num,item
         fcontent=item[0].replace('。','')
         fcontent= fcontent.replace(' ', '')
-        data=fcontent.split('，')
-        # print 'split item',data
-        datalist.append(data)
+        fcontent = fcontent.replace('【功用】', '')
+        fcontent = fcontent.replace('【功效】', '')
+        function=fcontent[fcontent.find('#')+1:]
+        xuhao=fcontent[:fcontent.find('#')+1]
+        if function!='':
+            data=function.split('，')
+            data.insert(0,xuhao)
+            # print 'split item',data
+            datalist.append(data)
         num+=1
     print len(datalist)
     return datalist
@@ -24,11 +30,15 @@ def function_count(csvname):
     csv_data = web_data_process.read_csv(csvname)
     flist=[]
     for item in csv_data:
+        j=0
         for itemdata in item:
-            itemdata=itemdata.replace('疏风','祛风')
-            itemdata = itemdata.replace('散风', '祛风')
-            itemdata = itemdata.replace('驱风', '祛风')
-            flist.append(itemdata)
+            if j!=0 and itemdata!='':
+                print 'itemdata',itemdata
+                itemdata=itemdata.replace('疏风','祛风')
+                itemdata = itemdata.replace('散风', '祛风')
+                itemdata = itemdata.replace('驱风', '祛风')
+                flist.append(itemdata)
+            j+=1
     print '所有方剂中的功效有（没有去重）：',len(flist)
     #去重 计算有多少不同的功效
     flistset=list(set(flist))
@@ -46,6 +56,7 @@ def function_count(csvname):
     print '所有方剂中的功效有（去重）：', len(numarray)
 
     return  numarray
+
 def func2feature(csvname1,csvname2):
     print 'func2feature'
     funcdata = web_data_process.read_csv(csvname1)
@@ -57,7 +68,7 @@ def func2feature(csvname1,csvname2):
 
     featurelist=[]
     #这里可以修改需要判别的功效，放一个时会检索不到（‘.-’）
-    locmark= countlist.index('祛风清热'.decode('utf-8'))
+    locmark= countlist.index('清热解毒'.decode('utf-8'))
     print 'locmark',locmark
     for item in funcdata:
         check=0
@@ -83,22 +94,21 @@ if __name__ == '__main__':
     print ('功效数据清洗进行中....')
 
     #step 1 处理文本中的符号
-    # readcsvname='function.csv'
-    # writecsvname='function_1.csv'
-    # csv_data=data_process.read_csv(readcsvname)
+    # readcsvname='webFunction_1.csv'
+    # writecsvname='webFunction_2.csv'
+    # csv_data=web_data_process.read_csv(readcsvname)
     # datalist=process_symbol(csv_data)
-    # data_process.write_in_csv(writecsvname,datalist)
+    # web_data_process.write_in_csv(writecsvname,datalist)
 
     #step 2 计算有多少种功效，每种功效出现的次数和比例
-    # csvname='function_1.csv'
+    # csvname='webFunction_2.csv'
     # numarray=function_count(csvname)
-    # writecsvname = 'function_count.csv'
-    # writecsvname='function_count_replace.csv'
-    # data_process.write_in_csv(writecsvname,numarray)
+    # writecsvname = 'webFunction_count.csv'
+    # web_data_process.write_in_csv(writecsvname,numarray)
 
     #step 3 计算功效的类标特征向量
-    csvname1='function_1.csv'
-    csvname2='function_count_replace.csv'
+    csvname1='webFunction_2.csv'
+    csvname2='webFunction_count.csv'
     featurelist=func2feature(csvname1,csvname2)
-    writecsvname='funcFeature.txt'
+    writecsvname='webFuncFeature.csv'
     web_data_process.write_list_in_csv(writecsvname, featurelist)

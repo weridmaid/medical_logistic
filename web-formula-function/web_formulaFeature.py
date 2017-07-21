@@ -189,11 +189,11 @@ if __name__ == '__main__':
     # data_process.write_in_csv(writecsvname , pFeatrue)
 
     # (2)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数*********presFeature_realValue.csv
-    csvname1 = 'prescription_6.csv'
-    csvname2 = 'allMedicalCount.csv'
-    pFeatrue = presFeature_1(csvname1, csvname2)
-    writecsvname = 'presFeature_realValue.txt'
-    web_data_process.write_in_csv(writecsvname, pFeatrue)
+    # csvname1 = 'prescription_6.csv'
+    # csvname2 = 'allMedicalCount.csv'
+    # pFeatrue = presFeature_1(csvname1, csvname2)
+    # writecsvname = 'presFeature_realValue.txt'
+    # web_data_process.write_in_csv(writecsvname, pFeatrue)
 
     # (3)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数,在方剂中做归一化处理*********presFeature_standardValue.csv
     # csvname1 = 'prescription_6.csv'

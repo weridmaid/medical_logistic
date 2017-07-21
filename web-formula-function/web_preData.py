@@ -354,6 +354,58 @@ def UnifiedDose(readcsvname,writecsvname):
 
     web_data_process.write_in_csv(writecsvname , normalList)
 
+def deleteblank(readcsvname,writecsvname):
+    print 'deleteblank'
+    csvdata = web_data_process.read_csv(readcsvname)
+    finalList = []
+    for item in csvdata:
+        if len(item)!=1:
+            finalList.append(item)
+    print 'lenth',len(finalList)
+    web_data_process.write_in_csv(writecsvname, finalList)
+
+#*************************额外的处理**************************************
+def checkContent(readcsvname1,readcsvname2):
+    print 'checkContent'
+    csvdata1 = web_data_process.read_csv(readcsvname1)
+    csvdata2 = web_data_process.read_csv(readcsvname2)
+    formulaList=[]
+    functionList=[]
+    for item in csvdata1:
+        formulaList.append(item)
+    for item in csvdata2:
+        functionList.append(item)
+    print '方剂个数：%d 功效个数：%d '%(len(formulaList),len(functionList))
+    num=0
+    wrong=1
+    for i in range(0,len(formulaList)):
+        if formulaList[i][0]!=functionList[i][0]:
+            print '编号不对应！',num,formulaList[i][0],functionList[i][0]
+            wrong = 0
+        num+=1
+    if wrong:
+        print '检测完毕！编号对应！'
+
+
+def deletebianhao(readcsvname1, readcsvname2):
+    print 'deletebianhao'
+    csvdata1 = web_data_process.read_csv(readcsvname1)
+    csvdata2 = web_data_process.read_csv(readcsvname2)
+    formulaList = []
+    functionList = []
+    for item in csvdata1:
+        item.pop(0)
+        formulaList.append(item)
+    for item in csvdata2:
+        item.pop(0)
+        functionList.append(item)
+
+    writecsvname1='webFormula_final_2.csv'
+    writecsvname2='webFunction_3.csv'
+    web_data_process.write_in_csv(writecsvname1, formulaList)
+    web_data_process.write_in_csv(writecsvname2, functionList)
+
+
 
 if __name__ == '__main__':
     print ('爬取数据预处理进行....')
@@ -400,10 +452,26 @@ if __name__ == '__main__':
     # webProcessNum(readcsvname,writecsvname)
 
     #尽量把能换算的单位 统一为g
-    readcsvname = 'webFormula_6.csv'
-    writecsvname = 'webFormula_final.csv'
-    UnifiedDose(readcsvname,writecsvname)
+    # readcsvname = 'webFormula_6.csv'
+    # writecsvname = 'webFormula_final.csv'
+    # UnifiedDose(readcsvname,writecsvname)
 
+    #去除爬到的没有内容的方剂
+    # readcsvname = 'webFormula_final.csv'
+    # writecsvname = 'webFormula_final_1.csv'
+    # deleteblank(readcsvname,writecsvname)
+
+
+    #*******************************额外的处理！！！！！！！！！！！！！！！！！！！！
+    #检测方剂和功效的编号是否一一对应
+    # readcsvname1 = 'webFormula_final_1.csv'
+    # readcsvname2 = 'webFunction_2.csv'
+    # checkContent(readcsvname1, readcsvname2)
+
+    #若编号一致，可去除编号
+    # readcsvname1 = 'webFormula_final_1.csv'
+    # readcsvname2 = 'webFunction_2.csv'
+    # deletebianhao(readcsvname1, readcsvname2)
 
 
     #正则表达式 test

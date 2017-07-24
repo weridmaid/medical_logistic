@@ -48,8 +48,8 @@ def loadData():
     train_x = []
     train_y = []
     rem = []
-    # presCsvname='presFeature_realValue.csv'
-    presCsvname = 'presFeature_onehot.csv'
+    presCsvname='presFeature_realValue.csv'
+    # presCsvname = 'presFeature_onehot.csv'
     funcCsvname = 'funcFeature.csv'
     data = data_process.read_csv(presCsvname)
     labeldata = data_process.read_csv(funcCsvname)
@@ -118,7 +118,7 @@ num=1
 for i in range(2,11):
    print '迭代次数设置：',i*10
    maxiter=i*10
-   for j in range(1,11):
+   for j in range(1,21):
         print '正则化因子lamda设置：',round((float(j)/10),2)
         lamda=round((float(j)/10),2)
         ## step 2: training...
@@ -126,7 +126,7 @@ for i in range(2,11):
 
         opts = {'alpha': 0.01, 'maxIter': maxiter, 'optimizeType': 'stocGradDescent','lambda':lamda}
         # opts = {'alpha': 0.01, 'maxIter': 100, 'optimizeType': 'smoothStocGradDescent'}
-        writecsvname='weight'+str(maxiter)+'_'+str(lamda)+'csv'
+        writecsvname='weight'+str(maxiter)+'_'+str(lamda)+'.csv'
         optimalWeights = logRegression.trainLogRegres(train_x, train_y, opts,writecsvname)
 
         ## step 3: testing

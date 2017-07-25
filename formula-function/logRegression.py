@@ -43,7 +43,7 @@ def trainLogRegres(train_x, train_y, opts,writecsvname):
     #把权重随机初始化在（-0.01,0.01之间）
     n=0
     for i in weights:
-        weights[n]=round(weights[n]*random.uniform(-0.1,0.1),4)
+        weights[n]=round(weights[n]*random.uniform(-1,1),4)
         n+=1
     print '初始化权值：',weights
     labda= float(opts['lambda'])

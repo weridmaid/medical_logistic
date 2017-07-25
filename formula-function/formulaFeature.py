@@ -29,7 +29,9 @@ def presFeature(csvname1,csvname2):
         # print 'item:',item
         item[0] = item[0].replace('﻿', '')
         mark = 0
-        featrue = [0] * 1563
+        #多少种药就是多少维 668种药，668维
+        # featrue = [0] * 1563
+        featrue = [0] * 668
         for itemdata in item:
                 if(( mark % 2) == 0):
                     try:
@@ -73,7 +75,8 @@ def presFeature_1(csvname1,csvname2):
         # print 'item:',item
         item[0] = item[0].replace('﻿', '')
         mark = 0
-        featrue = [0] * 1563
+        # featrue = [0] * 1563
+        featrue = [0] * 668
         for itemdata in item:
                 if(( mark % 2) == 0):
                     try:
@@ -116,7 +119,8 @@ def presFeature_2(csvname1,csvname2):
         # print 'item:',item
         item[0] = item[0].replace('﻿', '')
         mark = 0
-        featrue = [0] * 1563
+        # featrue = [0] * 1563
+        featrue = [0] * 668
         lenth=len(item)
         thisall=0
         for i in range(0,lenth):
@@ -172,6 +176,40 @@ def computeAverage(csvname):
     ave=itemvalue/num
     print 'itemvalue,num,ave=itemvalue/num:',itemvalue,num,ave
 
+def tongji(readcsvname):
+    print 'tongji'
+    data = data_process.read_csv(readcsvname)
+    medicallist=[]
+    for item in data:
+        medicallist.append(item)
+
+    num=0
+    count = 0
+    countp=0
+    all=len(medicallist)
+    print all
+    for item in medicallist:
+        if num ==0:
+            aa=item[1]
+            count += 1
+        else:
+            # print 'zz', item[1]
+            if item[1]==aa:
+                count+=1
+            else:
+                # print count
+                p=float(count)/all
+                countp=countp+p
+                print '频次：%s , 占比：%f'%(aa,p)
+                count=0
+                count += 1
+            aa = item[1]
+        num+=1
+
+    p = float(count) / all
+    countp = countp + p
+    print '频次：%s , 占比：%f' % (aa, p)
+    print 'countp',countp
 
 
 if __name__ == '__main__':
@@ -180,30 +218,41 @@ if __name__ == '__main__':
     #step 1 统计所有处方中共有多少种药物出现过
     # readcsvname='prescription_6.csv'
     # numarray=dataFeatureValue.countallmedical(readcsvname)
-    # writecsvname = 'allMedicalCount.csv'
+    #手动去除allMedicalCount_1.csv里频次为1的药物；和调和药“甘草”
+    # writecsvname = 'allMedicalCount_1.csv'
+
     # data_process.write_in_csv(writecsvname , numarray)
+
+    #统计处方中不同频次的药物占比
+    # readcsvname = 'allMedicalCount_1.csv'
+    # tongji(readcsvname)
+
+
+
+
 
     #step 2 计算方剂向量特征
     #(1)使用one-hot表示，每个方剂的维数等于所有方剂中药物的去重个数，若出现则为1 *********presFeature_onehot.csv
-    # csvname1='prescription_6.csv'
-    # csvname2 = 'allMedicalCount.csv'
-    # pFeatrue= presFeature(csvname1,csvname2)
-    # writecsvname = 'presFeature_onehot.csv'
-    # data_process.write_in_csv(writecsvname , pFeatrue)
+    csvname1='prescription_6.csv'
+    csvname2 = 'allMedicalCount_1.csv'
+    pFeatrue= presFeature(csvname1,csvname2)
+    writecsvname = 'presFeature_onehot_668.csv'
+    data_process.write_in_csv(writecsvname , pFeatrue)
 
     # (2)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数*********presFeature_realValue.csv
-    # csvname1 = 'prescription_6.csv'
-    # csvname2 = 'allMedicalCount.csv'
-    # pFeatrue = presFeature_1(csvname1, csvname2)
-    # writecsvname = 'presFeature_realValue.csv'
-    # data_process.write_in_csv(writecsvname, pFeatrue)
+    csvname1 = 'prescription_6.csv'
+    csvname2 = 'allMedicalCount_1.csv'
+    pFeatrue = presFeature_1(csvname1, csvname2)
+    writecsvname = 'presFeature_realValue_668.csv'
+    data_process.write_in_csv(writecsvname, pFeatrue)
 
     # (3)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数,在方剂中做归一化处理*********presFeature_standardValue.csv
-    # csvname1 = 'prescription_6.csv'
+    csvname1 = 'prescription_6.csv'
     # csvname2 = 'allMedicalCount.csv'
-    # pFeatrue = presFeature_2(csvname1, csvname2)
-    # writecsvname = 'presFeature_standardValue.csv'
-    # data_process.write_in_csv(writecsvname, pFeatrue)
+    csvname2 = 'allMedicalCount_1.csv'
+    pFeatrue = presFeature_2(csvname1, csvname2)
+    writecsvname = 'presFeature_standardValue_668.csv'
+    data_process.write_in_csv(writecsvname, pFeatrue)
 
 
 

@@ -31,6 +31,28 @@ def pickData(readcsvname1,readcsvname2,function):
 
 def onlyWord(readcsvname):
     print 'onlyWord'
+    preslist=[]
+    presdata = data_process.read_csv(readcsvname)
+    for item in presdata:
+        preslist.append(item)
+
+    finallist=[]
+    for item in preslist:
+        count=0
+        # print item
+        zz = []
+        for itemdata in item:
+            # print count
+            # print itemdata
+            if (count % 2)==0:
+                 zz.append(itemdata)
+                 count += 1
+            else:
+                count += 1
+        # print zz
+        finallist.append(zz)
+
+    return finallist
 
 if __name__ == '__main__':
     print ('准备Apriori算法数据....')
@@ -42,4 +64,6 @@ if __name__ == '__main__':
     # pickData(readcsvname1, readcsvname2,function)
 
     readcsvname = 'Apriori_QFCS_Prescription.csv'
-    onlyWord(readcsvname)
+    finallist=onlyWord(readcsvname)
+    writename='Apriori_QFCS_data.csv'
+    data_process.write_in_csv(writename,finallist)

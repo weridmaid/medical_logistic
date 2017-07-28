@@ -32,9 +32,6 @@ def pickData(readcsvname1,readcsvname2,function):
 def onlyWord(readcsvname):
     print 'onlyWord'
 
-
-
-
 if __name__ == '__main__':
     print ('准备Apriori算法数据....')
     #换其他功效时 修改这里即可

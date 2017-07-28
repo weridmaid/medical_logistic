@@ -57,7 +57,7 @@ def func2feature(csvname1,csvname2):
 
     featurelist=[]
     #这里可以修改需要判别的功效，放一个时会检索不到（‘.-’）
-    locmark= countlist.index('祛风清热'.decode('utf-8'))
+    locmark= countlist.index('祛风除湿'.decode('utf-8'))
     print 'locmark',locmark
     for item in funcdata:
         check=0
@@ -76,7 +76,7 @@ def func2feature(csvname1,csvname2):
         else:
             featurelist.append(0)
     print 'len(featurelist):',len(featurelist)
-    print '有多少方剂属于该功效（祛风清热）：',featurelist.count(1)
+    print '有多少方剂属于该功效（祛风除湿）：',featurelist.count(1)
     return featurelist
 
 if __name__ == '__main__':
@@ -91,14 +91,18 @@ if __name__ == '__main__':
 
     #step 2 计算有多少种功效，每种功效出现的次数和比例
     # csvname='function_1.csv'
+    # csvname = 'combineFunction_QFCS.csv'
     # numarray=function_count(csvname)
-    # writecsvname = 'function_count.csv'
-    # writecsvname='function_count_replace.csv'
+    # # writecsvname = 'function_count.csv'
+    # writecsvname='combineFunction_QFCS_count_replace.csv'
     # data_process.write_in_csv(writecsvname,numarray)
 
     #step 3 计算功效的类标特征向量
-    csvname1='function_1.csv'
-    csvname2='function_count_replace.csv'
+    # csvname1='function_1.csv'
+    # csvname2='function_count_replace.csv'
+
+    csvname1='combineFunction_QFCS.csv'
+    csvname2='combineFunction_QFCS_count_replace.csv'
     featurelist=func2feature(csvname1,csvname2)
-    writecsvname='funcFeature.txt'
+    writecsvname='combineFuncFeature_QFCS.csv'
     data_process.write_list_in_csv(writecsvname,featurelist)

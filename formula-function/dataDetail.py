@@ -83,3 +83,6 @@ if __name__ == '__main__':
     # readcsvname2 = 'function_1.csv'
     # readcsvname3='indications.csv'
     # data1=checkitem(readcsvname1,readcsvname2,readcsvname3)
+
+
+

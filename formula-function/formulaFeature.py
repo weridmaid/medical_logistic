@@ -31,7 +31,7 @@ def presFeature(csvname1,csvname2):
         mark = 0
         #多少种药就是多少维 668种药，668维
         # featrue = [0] * 1563
-        featrue = [0] * 668
+        featrue = [0] * 227
         for itemdata in item:
                 if(( mark % 2) == 0):
                     try:
@@ -76,7 +76,7 @@ def presFeature_1(csvname1,csvname2):
         item[0] = item[0].replace('﻿', '')
         mark = 0
         # featrue = [0] * 1563
-        featrue = [0] * 668
+        featrue = [0] * 227
         for itemdata in item:
                 if(( mark % 2) == 0):
                     try:
@@ -120,7 +120,7 @@ def presFeature_2(csvname1,csvname2):
         item[0] = item[0].replace('﻿', '')
         mark = 0
         # featrue = [0] * 1563
-        featrue = [0] * 668
+        featrue = [0] * 227
         lenth=len(item)
         thisall=0
         for i in range(0,lenth):
@@ -217,42 +217,51 @@ if __name__ == '__main__':
 
     #step 1 统计所有处方中共有多少种药物出现过
     # readcsvname='prescription_6.csv'
+    #与web爬取数据结合的正负例
+    # readcsvname = 'combinePrescription.csv'
     # numarray=dataFeatureValue.countallmedical(readcsvname)
-    #手动去除allMedicalCount_1.csv里频次为1的药物；和调和药“甘草”
-    # writecsvname = 'allMedicalCount_1.csv'
-
+    # # 手动去除allMedicalCount_1.csv里频次为1的药物；和调和药“甘草”
+    # writecsvname = 'allMedicalCount_combine_QFCS.csv'
     # data_process.write_in_csv(writecsvname , numarray)
 
     #统计处方中不同频次的药物占比
-    # readcsvname = 'allMedicalCount_1.csv'
+    # readcsvname = 'allMedicalCount_combine_QFCS.csv'
     # tongji(readcsvname)
-
-
-
-
 
     #step 2 计算方剂向量特征
     #(1)使用one-hot表示，每个方剂的维数等于所有方剂中药物的去重个数，若出现则为1 *********presFeature_onehot.csv
-    csvname1='prescription_6.csv'
-    csvname2 = 'allMedicalCount_1.csv'
+    #数据1：全取自防风数据集
+    # csvname1='prescription_6.csv'
+    # csvname2 = 'allMedicalCount_1.csv'
+    # 数据2：与web爬取数据结合的正负例
+    csvname1='combinePrescription.csv'
+    csvname2 = 'allMedicalCount_combine_QFCS.csv'
+
     pFeatrue= presFeature(csvname1,csvname2)
-    writecsvname = 'presFeature_onehot_668.csv'
+    writecsvname = 'presFeature_onehot_combine_QFCS_227t.csv'
     data_process.write_in_csv(writecsvname , pFeatrue)
+    #
+    # # (2)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数*********presFeature_realValue.csv
+    # csvname1 = 'prescription_6.csv'
+    # csvname2 = 'allMedicalCount_1.csv'
+    # 数据2：与web爬取数据结合的正负例
+    csvname1='combinePrescription.csv'
+    csvname2 = 'allMedicalCount_combine_QFCS.csv'
 
-    # (2)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数*********presFeature_realValue.csv
-    csvname1 = 'prescription_6.csv'
-    csvname2 = 'allMedicalCount_1.csv'
     pFeatrue = presFeature_1(csvname1, csvname2)
-    writecsvname = 'presFeature_realValue_668.csv'
+    writecsvname = 'presFeature_realValue_combine_QFCS_227t.csv'
     data_process.write_in_csv(writecsvname, pFeatrue)
+    #
+    # # (3)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数,在方剂中做归一化处理*********presFeature_standardValue.csv
+    # csvname1 = 'prescription_6.csv'
+    # csvname2 = 'allMedicalCount_1.csv'
+    # 数据2：与web爬取数据结合的正负例
+    # csvname1='combinePrescription.csv'
+    # csvname2 = 'allMedicalCount_combine_QFCS.csv'
 
-    # (3)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数,在方剂中做归一化处理*********presFeature_standardValue.csv
-    csvname1 = 'prescription_6.csv'
-    # csvname2 = 'allMedicalCount.csv'
-    csvname2 = 'allMedicalCount_1.csv'
-    pFeatrue = presFeature_2(csvname1, csvname2)
-    writecsvname = 'presFeature_standardValue_668.csv'
-    data_process.write_in_csv(writecsvname, pFeatrue)
+    # pFeatrue = presFeature_2(csvname1, csvname2)
+    # writecsvname = 'presFeature_vstandardValue_combine_QFCS_227t.cs'
+    # data_process.write_in_csv(writecsvname, pFeatrue)
 
 
 

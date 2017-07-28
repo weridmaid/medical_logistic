@@ -18,12 +18,9 @@ import data_process
 import random
 
 
-
-
 # calculate the sigmoid function
 def sigmoid(inX):
     return 1.0 / (1 + exp(-inX))
-
 
 # train a logistic regression model using some optional optimize algorithm
 # input: train_x is a mat datatype, each row stands for one sample
@@ -43,14 +40,18 @@ def trainLogRegres(train_x, train_y, opts,writecsvname):
     #把权重随机初始化在（-0.01,0.01之间）
     n=0
     for i in weights:
-        weights[n]=round(weights[n]*random.uniform(-1,1),4)
+        weights[n]=weights[n]*random.uniform(-0.01,0.01)
         n+=1
-    print '初始化权值：',weights
+    # print '初始化权值：',weights
     labda= float(opts['lambda'])
+
     print '正则化系数：', labda
     # optimize through gradient descent algorilthm
     for k in range(maxIter):
-        print '正在进行第%d次迭代...' % (k+1)
+    # while(abs(checkerror)>0.01):
+
+        print '正在进行第%d次迭代...'%(k+1)
+
         if opts['optimizeType'] == 'gradDescent':  # gradient descent algorilthm
             output = sigmoid(train_x * weights)
             error = train_y - output
@@ -59,11 +60,11 @@ def trainLogRegres(train_x, train_y, opts,writecsvname):
         #随机梯度下降
         elif opts['optimizeType'] == 'stocGradDescent':  # stochastic gradient descent
             for i in range(numSamples):
-                # print 'train_x[i, :]',train_x[i, :]
                 output = sigmoid(train_x[i, :] * weights)
-                # print 'train_y[i, 0]',train_y[i, 0]
                 error = train_y[i, 0] - output
                 #德尔塔w=alpha * train_x[i, :].transpose() * error
+
+                #添加L1范数约束 start
                 numlist=[]
                 for num in weights:
                     # print 'num',num
@@ -74,22 +75,12 @@ def trainLogRegres(train_x, train_y, opts,writecsvname):
                     else:
                         numlist.append(0)
                 numlist=mat(numlist)
-                # print 'numlist',numlist
-                # print 'numlist.transpose()', numlist.transpose()
-                # print 'train_x[i, :].transpose()', train_x[i, :].transpose()
-                weights = weights + alpha * train_x[i, :].transpose() * error-alpha *labda* numlist.transpose()
+                # 添加L1范数约束 end
 
-
-        elif opts['optimizeType'] == 'smoothStocGradDescent':  # smooth stochastic gradient descent
-            # randomly select samples to optimize for reducing cycle fluctuations
-            dataIndex = range(numSamples)
-            for i in range(numSamples):
-                alpha = 4.0 / (1.0 + k + i) + 0.01
-                randIndex = int(random.uniform(0, len(dataIndex)))
-                output = sigmoid(train_x[randIndex, :] * weights)
-                error = train_y[randIndex, 0] - output
-                weights = weights + alpha * train_x[randIndex, :].transpose() * error
-                del (dataIndex[randIndex])  # during one interation, delete the optimized sample
+                # 添加L1范数约束
+                weights = weights + alpha * train_x[i,:].transpose() * error-alpha *labda* numlist.transpose()
+                # 取消L1范数约束
+                # weights = weights + alpha * train_x[i,:].transpose() * error
         else:
             raise NameError('Not support optimize method type!')
 

@@ -10,9 +10,10 @@ if __name__ == '__main__':
     print '从训练好的logistic模型参数中找出占主导作用的药物...'
     # readcsvname='weight_668_oneHot_alpha0.01_100_1.0.csv'
     # readcsvname = 'weight_onehot_668_500_0.1.csv'
-    readcsvname = 'weight_245_oneHot_start0.01_80_2.8.csv'
+    readcsvname = 'weight_onehot_QFCS_start0.1_223t_maxIter50_lambda0.1.csv'
     weightdata=data_process.read_csv(readcsvname)
-    csvname='allMedicalCount_1.csv'
+    # csvname='allMedicalCount_1.csv'
+    csvname = 'allMedicalCount_combine_QFCS.csv'
     medicaldata=data_process.read_csv(csvname)
     medicallist=[]
     importantMedical=[]

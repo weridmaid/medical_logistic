@@ -107,7 +107,7 @@ def loadData():
     train_x = []
     train_y = []
 
-    presCsvname = 'presFeature_onehot_combine_QFCS_227t.csv'
+    presCsvname = 'presFeature_onehot_combine_QFCS_223t.csv'
     funcCsvname = 'combineFuncFeature_QFCS.csv'
     data = data_process.read_csv(presCsvname)
     labeldata = data_process.read_csv(funcCsvname)
@@ -116,13 +116,15 @@ def loadData():
     for i in data:
         if check==0:
             i[0] = i[0].replace('﻿', '')
-        train_x.append(i[0])
+        i = [float(item) for item in i]
+        i.insert(0, 1.0)
+        train_x.append(i)
         check+=1
     check = 0
     for j in labeldata:
         if check==0:
-            i[0] = i[0].replace('﻿', '')
-        train_y.append(j[0])
+            j[0] = j[0].replace('﻿', '')
+        train_y.append(float(j[0]))
         check += 1
     # 版本三 结合了web爬取的数据；处理好的数据集已经正负例平衡
 
@@ -171,7 +173,7 @@ for i in range(5,6):
 
         opts = {'alpha': 0.01, 'maxIter': maxiter, 'optimizeType': 'stocGradDescent','lambda':lamda}
         # opts = {'alpha': 0.01, 'maxIter': 100, 'optimizeType': 'smoothStocGradDescent'}
-        writecsvname='weight_onehot_QFCS_227_'+str(maxiter)+'_'+str(lamda)+'.csv'
+        writecsvname='weight_onehot_QFCS_start0.1_223t_maxIter'+str(maxiter)+'_lambda'+str(lamda)+'.csv'
         optimalWeights = logRegression.trainLogRegres(train_x, train_y, opts,writecsvname)
 
         ## step 3: testing
@@ -180,7 +182,7 @@ for i in range(5,6):
 
         ## step 4: show and write the result
         print "step 4: write the result in test.csv..."
-        condiction='%d# 学习因子（尼尔塔）：0.01 最大迭代次数：%d 正则化因子（拉姆达）：%f 初始权重：(-0.01,0.01) acc:%f'%(num,maxiter,lamda,accuracy* 100)
+        condiction='%d# 学习因子（尼尔塔）：0.01 最大迭代次数：%d 正则化因子（拉姆达）：%f 初始权重：(-0.1,0.1) acc:%f'%(num,maxiter,lamda,accuracy* 100)
         recordlist=[]
         recordlist.append(condiction)
         # data_process.write_list_in_csv_a('ExResult_1564_realValue.csv',recordlist)

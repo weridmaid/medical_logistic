@@ -31,7 +31,7 @@ def presFeature(csvname1,csvname2):
         mark = 0
         #多少种药就是多少维 668种药，668维
         # featrue = [0] * 1563
-        featrue = [0] * 227
+        featrue = [0] * 223
         for itemdata in item:
                 if(( mark % 2) == 0):
                     try:
@@ -76,7 +76,7 @@ def presFeature_1(csvname1,csvname2):
         item[0] = item[0].replace('﻿', '')
         mark = 0
         # featrue = [0] * 1563
-        featrue = [0] * 227
+        featrue = [0] * 223
         for itemdata in item:
                 if(( mark % 2) == 0):
                     try:
@@ -120,7 +120,7 @@ def presFeature_2(csvname1,csvname2):
         item[0] = item[0].replace('﻿', '')
         mark = 0
         # featrue = [0] * 1563
-        featrue = [0] * 227
+        featrue = [0] * 223
         lenth=len(item)
         thisall=0
         for i in range(0,lenth):
@@ -238,7 +238,7 @@ if __name__ == '__main__':
     csvname2 = 'allMedicalCount_combine_QFCS.csv'
 
     pFeatrue= presFeature(csvname1,csvname2)
-    writecsvname = 'presFeature_onehot_combine_QFCS_227t.csv'
+    writecsvname = 'presFeature_onehot_combine_QFCS_223t.csv'
     data_process.write_in_csv(writecsvname , pFeatrue)
     #
     # # (2)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数*********presFeature_realValue.csv
@@ -249,7 +249,7 @@ if __name__ == '__main__':
     csvname2 = 'allMedicalCount_combine_QFCS.csv'
 
     pFeatrue = presFeature_1(csvname1, csvname2)
-    writecsvname = 'presFeature_realValue_combine_QFCS_227t.csv'
+    writecsvname = 'presFeature_realValue_combine_QFCS_223t.csv'
     data_process.write_in_csv(writecsvname, pFeatrue)
     #
     # # (3)使用配伍单位数值表示，每个方剂的维数等于所有方剂中药物的去重个数,在方剂中做归一化处理*********presFeature_standardValue.csv

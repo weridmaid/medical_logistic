@@ -59,7 +59,7 @@ def write_list_in_csv_a(csv_name, datas):
         # 'wb'覆盖写入,'a'追加写入
         # csvfile = file('../formulaData_1/%s' % csv_name, 'a')
         # csvfile = file('../resultData_QFCS/%s' % csv_name, 'a')
-        csvfile = file('%s' % csv_name, 'a')
+        csvfile = file('%s' % csv_name, 'ab+')
         csvfile.write(codecs.BOM_UTF8)
         writer = csv.writer(csvfile)
         for item in datas:

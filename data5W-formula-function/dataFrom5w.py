@@ -36,12 +36,12 @@ def extractnumfromstr(readcsvname,writecsvname):
 
     # 正则匹配要用' ur'' '才能正确匹配中文
     # (?:..):(...)的不分组版本，用于使用| 或 后接数量词
-    pattern1 = re.compile(ur'\d+.\d+(?:g|kg|ml|l|千克|克|钱半|斤半|分半|升半|升|个|钱|片|根|条|份|张|枚|具|朵|只|粒|茎|两半|斤|文|挺|对|头|L|ML|分|节|cm|握|株|两|铢)')
-    pattern2 = re.compile(ur'\d+(?:g|kg|ml|l|千克|克|钱半|分半|斤半|升半|升|个|钱|片|根|条|份|张|枚|具|朵|只|合|粒|茎|两半|斤|文|挺|对|头|L|ML|分|节|cm|握|株|两|铢)')
+    pattern1 = re.compile(ur'\d+.\d+(?:g|kg|ml|l|千克|克|钱半|斤半|分半|升半|升|个|钱|片|根|条|份|张|枚|寸|具|朵|只|粒|茎|两半|斤|文|挺|对|头|L|ML|分|节|cm|握|株|两|铢)')
+    pattern2 = re.compile(ur'\d+(?:g|kg|ml|l|千克|克|钱半|分半|斤半|升半|升|个|钱|片|根|条|份|张|枚|寸|具|朵|只|合|粒|茎|两半|斤|文|挺|对|头|L|ML|分|节|cm|握|株|两|铢)')
     pattern3 = re.compile(
-        ur'\d+(?:g|kg|ml|l|千克|克|钱半|分半|斤半|升半|升|个|钱|片|根|条|份|张|枚|具|朵|只|粒|茎|两半|斤|文|挺|合|对|头|L|ML|分|节|cm|握|株|两|铢)\d+(?:g|kg|ml|l|克|钱半|分半|斤半|升半|升|个|钱|片|根|条|份|张|枚|具|朵|只|粒|茎|两半|斤|文|挺|对|头|L|ML|分|节|cm|握|株|两|铢)')
+        ur'\d+(?:g|kg|ml|l|千克|克|钱半|分半|斤半|升半|升|个|钱|片|根|条|份|张|枚|寸|具|朵|只|粒|茎|两半|斤|文|挺|合|对|头|L|ML|分|节|cm|握|株|两|铢)\d+(?:g|kg|ml|l|克|钱半|分半|斤半|升半|升|个|钱|片|根|条|份|张|枚|具|朵|只|粒|茎|两半|斤|文|挺|对|头|L|ML|分|节|cm|握|株|两|铢)')
     pattern4 = re.compile(
-        ur'(?:一|二|三|四|五|六|七|八|九|十|两|半)(?:g|kg|ml|l|千克|克|钱半|斤半|分半|升半|升|个|钱|片|根|条|份|合|张|枚|具|朵|只|粒|茎|两半|斤|文|挺|对|头|L|ML|分|节|cm|握|株|两|铢)')
+        ur'(?:一|二|三|四|五|六|七|八|九|十|两|半)(?:g|kg|ml|l|千克|克|钱半|斤半|分半|升半|升|个|钱|片|根|条|份|合|张|枚|寸|具|朵|只|粒|茎|两半|斤|文|挺|对|头|L|ML|分|节|cm|握|株|两|铢)')
 
     pattern_other=re.compile(ur'(?:等分|适量|少许)')
     medicallist = []
@@ -180,10 +180,10 @@ if __name__ == '__main__':
 
 
     # # (3)药名-数量单位 一一提取匹配；处理“各”的情况 补填；处理“等分”，“少许”等词清除
-    # readcsvname='../formulaData_1/pres_5W_3.csv'
-    # writecsvname='../formulaData_1/pres_5W_4.csv'
-    # finalmedicallist=extractnumfromstr(readcsvname, writecsvname)
-    # data_process.write_in_csv(writecsvname, finalmedicallist)
+    readcsvname='../formulaData_1/pres_5W_3.csv'
+    writecsvname='../formulaData_1/pres_5W_4.csv'
+    finalmedicallist=extractnumfromstr(readcsvname, writecsvname)
+    data_process.write_in_csv(writecsvname, finalmedicallist)
 
     #8-1 目前考虑用one-hot表示，先不做这步
     # #step 5 把单位kg,钱，两 统一为 g（克）
